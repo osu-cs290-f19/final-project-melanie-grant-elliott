@@ -6,7 +6,7 @@ let catIcon = L.icon({
 });
 
 let map = tomtom.L.map('map', {
-    key: "placeholder key",
+    key: API_KEY,
     basePath: '<sdk>',
     center: oregonStateCoordinates,
     zoom : 15,
