@@ -1,2 +1,4 @@
 node_modules
 javascript/secrets.js
+javascript/dbsecrets.json
+.jshintrc
