@@ -1,31 +1,31 @@
 html, body, head{
     margin: 0;
+    overflow: hidden;
 }
 
-.title{
+#title{
   margin-top: 0px;
 }
 
-.header-bar{
-  float: right;
+#header-bar{
   height: 20vh;
-  width: 20%;
   background-color: blue;
 }
 
-.time-line{
+#time-line{
   background-color: red;
-  width: 20%;
   height: 80vh;
-  float: right;
 }
 
-.time-element{
-
+#side-elements{
+  float: right;
+  margin: 0;
+  width: 25vw;
 }
 
 #map {
-    width: 80%;
-    height: 100vh;
-    float: left;
-    }
+  width:75vw;
+  height: 100vh;
+  float: left;
+  margin: 0;
+}
