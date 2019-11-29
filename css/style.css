@@ -2,23 +2,40 @@ html, body, head, h2, h1{
     margin: 0;
 }
 
-#title{
+.title{
   margin-top: 0px;
+  text-align: center;
+}
+
+.menu{
+  padding-left: 45%;
+  color: black;
+  font-size: 100%;
+}
+
+#title{
+  font-size: 400%;
+  color: white;
+  text-shadow: 2px 2px black;
 }
 
 #header-bar{
-  height: 100px;
-  background-color: #edbe51;
+  height: 99px;
+  background-color: #ebca6e;
 }
 
 #time-element{
-  height: calc(100%-100);
+  height: calc(100vh - 107px);
   background-color: white;
-  height: 80vh;
+  border-top: solid;
+  border-color: black;
 }
 
 #side-elements{
-  width: 400px;
+  margin: 0;
+  border-style: solid;
+  border-radius: 1px;
+  width: 397px;
   float: right;
   margin: 0;
   z-index: -1;
@@ -27,7 +44,7 @@ html, body, head, h2, h1{
 }
 
 #map {
-  width: calc(100% - 400px);
+  width: calc(100vw - 403px);
   height: 100vh;
   position: relative;
   float: left;
