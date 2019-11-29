@@ -1,6 +1,5 @@
-html, body, head{
+html, body, head, h2, h1{
     margin: 0;
-    overflow: hidden;
 }
 
 #title{
@@ -8,24 +7,30 @@ html, body, head{
 }
 
 #header-bar{
-  height: 20vh;
-  background-color: blue;
+  height: 100px;
+  background-color: #edbe51;
 }
 
-#time-line{
-  background-color: red;
+#time-element{
+  height: calc(100%-100);
+  background-color: white;
   height: 80vh;
 }
 
 #side-elements{
+  width: 400px;
   float: right;
   margin: 0;
-  width: 25vw;
+  z-index: -1;
+  position: relative;
+
 }
 
 #map {
-  width:75vw;
+  width: calc(100% - 400px);
   height: 100vh;
+  position: relative;
   float: left;
   margin: 0;
+  z-index: 0;
 }

@@ -17,21 +17,3 @@ map.addEventListener('click', (event) => {
 });
 
 //^^ Map API Junk
-
-var screenWidth = window.screen.width * window.devicePixelRatio;
-var sideBar = document.getElementById('side-elements');
-var clientWidth = window.innerWidth;
-var sideBarWidth = screenWidth/5;
-
-//Resizing map/sidebar for different window sizes
-window.addEventListener('resize', function(event){
-  clientWidth = window.innerWidth;
-  document.getElementById('map').style.width = (((clientWidth-sideBarWidth)/clientWidth)*100)+"vw";
-  sideBar.style.width = 100-(((clientWidth-sideBarWidth)/clientWidth)*100)+"vw"
-  //if(window.screen.width < )
-  //sideBar.style.width = width+"px";
-  //document.getElementById('map').style.width = (document.clientWidth-width)+"px";
-  console.log("window.outerWidth: ",window.innerWidth);
-  console.log("window.screen.width * window.devicePixelRatio",window.screen.width * window.devicePixelRatio);
-
-});
