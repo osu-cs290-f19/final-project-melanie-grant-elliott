@@ -1,5 +1,11 @@
-html, body, head, h2, h1{
+html, body, head, h2, h1, h3{
     margin: 0;
+    overflow: hidden;
+}
+
+.cat-title{
+  margin-top: 0px;
+  text-align: center;
 }
 
 .title{
@@ -16,38 +22,87 @@ html, body, head, h2, h1{
 #title{
   font-size: 400%;
   color: white;
-  text-shadow: 2px 2px black;
+  text-shadow: 3px 2px black;
 }
 
 #header-bar{
-  height: 99px;
-  background-color: #ebca6e;
+  height: 80%;
+  background-color: #ebb734;
 }
 
-#time-element{
-  height: calc(100vh - 107px);
-  background-color: white;
-  border-top: solid;
-  border-color: black;
+#header{
+  height: 130px;
 }
 
 #side-elements{
   margin: 0;
-  border-style: solid;
-  border-radius: 1px;
-  width: 397px;
+  height: 100vh;
+  width: 400px;
   float: right;
   margin: 0;
-  z-index: -1;
   position: relative;
-
+  box-shadow: -10px 0 15px rgba(0, 0, 0, 0.3);
+  z-index: 1;
 }
 
 #map {
-  width: calc(100vw - 403px);
+  width: calc(100vw - 400px);
   height: 100vh;
   position: relative;
   float: left;
   margin: 0;
   z-index: 0;
+}
+
+#cat-tivity{
+  height: calc(100vh - 100px);
+  overflow-y: auto;
+}
+
+.cat{
+  background-color: #f0d389;
+  height: 120px;
+  border-radius: 10%;
+  margin-top: 10px;
+}
+
+.cat-title{
+
+  text-align: center;
+  position: relative;
+}
+
+.cat-photo{
+  position: relative;
+  float: right;
+  padding-right: 5px;
+  top: 10%;
+  height: 23%;
+  width: 23%;
+}
+
+.cat-photo img{
+  border-radius: 50%;
+  width: 100%;
+  height: auto;
+}
+
+.element{
+  padding-top: 5px;
+  padding-left: 5%;
+  height: 20%;
+  position: relative;
+  width: 75%;
+}
+
+.timeline-element-text{
+  float: left;
+  height: 25px;
+  padding-left: 5px;
+}
+
+.timeline-element-title{
+  float: left;
+  height: 25px;
+  font-weight: 700;
 }
