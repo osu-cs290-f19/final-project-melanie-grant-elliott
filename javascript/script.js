@@ -18,7 +18,6 @@ map.addEventListener('click', (event) => {
     catMod.style.display = 'block';
 });
 
-
 //This is where my stuff lives
 //variables
 var menu = document.getElementById('modal-backdrop');
@@ -47,8 +46,12 @@ function handleButtonClick(event){
   catMod.style.display = 'block';
 }
 
+function handleAcceptButtonClick(event){
+
+}
+
  //handler for either the x or cancel button being clicked
-  function handleHideButtonClick(event) {
+function handleHideButtonClick(event) {
     menu.style.display = 'none';
     catMod.style.display = 'none';
     for(var i = 0; i < modInp.length; i++){
@@ -61,12 +64,7 @@ function handleButtonClick(event){
        }
      }
     }
-  }
-
-  //handler for modal accept button being clicked
-  function handleAcceptButtonClick(event){
-  }
-});
+}
 
 // Creates a new cat in the database. Example call:
 // createNewCat(44.5125,-123.2691,"white","high","shy");
@@ -94,7 +92,7 @@ async function createNewCat(rlat, rlong, rcolor, renergy, rsociability){
         referrer: 'no-referrer', // no-referrer, *client
         body: JSON.stringify(postData) // body data type must match "Content-Type" header
       });
-
+}
 //^^ Map API Junk
 
 function insertNewCat(image, title, color, kindness, address){
