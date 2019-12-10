@@ -13,10 +13,6 @@ let map = tomtom.L.map('map', {
 });
 
 map.addEventListener('click', (event) => {
-<<<<<<< Updated upstream
-    tomtom.L.marker(event.latlng).addTo(map);
-});
-=======
     // Add new marker to map
     let addNewMarker = tomtom.L.marker(event.latlng, {icon: catIcon});
     addNewMarker.addTo(map);
@@ -52,7 +48,6 @@ async function createNewCat(rlat, rlong, rcolor, renergy, rsociability){
         referrer: 'no-referrer', // no-referrer, *client
         body: JSON.stringify(postData) // body data type must match "Content-Type" header
       });
->>>>>>> Stashed changes
 
 //^^ Map API Junk
 
@@ -68,8 +63,6 @@ function insertNewCat(image, title, color, kindness, address){
   var photoCardContainer = document.querySelector('#cat-tivity');
   photoCardContainer.insertAdjacentHTML('beforeend', newPhotoCardHTML);
 }
-<<<<<<< Updated upstream
-=======
 
 // TODO: add event listener on modal "accept" button that takes the fields,
 // wraps them in a POST request to /cat-spotting, and then clears them, closing the modal.
@@ -78,4 +71,3 @@ function insertNewCat(image, title, color, kindness, address){
 // TODO: add event listener on modal "cancel" button that clears the fields,
 // closes the modal, and removes the last placed marker (as we are not going through with the new cat)
 // use map.removeLayer(markersList[markersList.length-1]) to remove the last marker
->>>>>>> Stashed changes
