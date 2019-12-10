@@ -66,3 +66,6 @@ function handleButtonClick(event){
   //handler for modal accept button being clicked
   function handleAcceptButtonClick(event){
   }
+});
+
+//^^ Map API Junk

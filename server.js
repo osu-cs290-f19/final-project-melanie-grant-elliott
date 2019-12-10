@@ -18,7 +18,7 @@ MongoClient.connect(url, (err, database) => {
     // Store the database object so that we can interact with it and get data from it
     db = database.db('cat-spot');
     db.collection('cat-spottings').createIndex({ createdAt: 1 });
-    
+
     // Start the server
     app.listen(portnumber, function(){
         console.log("Server running on port " + portnumber);
@@ -32,13 +32,13 @@ MongoClient.connect(url, (err, database) => {
 
     // GET /
     app.get('/', async function(req, res){
-        
+
         // This gets cats that were spotted in the last 24 hours
         // this array contains cats in the form of [ {_id: 1, name: "cat name", lat: 123, long: 145, createdAt: date}, ... ]
         let cats = await db.collection('cat-spottings')
             .find({"createdAt":{$gt:new Date(Date.now() - 24*60*60 * 1000)}})
             .toArray();
-        
+
         res.status(200).sendFile(__dirname + "/index.html");
         // Eventually, when we use views, we can call res.render('indexView', { 'catarray' : cats });
         // so that we can pass the backend cats to the front end
@@ -66,6 +66,3 @@ MongoClient.connect(url, (err, database) => {
         res.redirect('/');
     });
   });
-
-
-
