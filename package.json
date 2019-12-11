@@ -5,7 +5,9 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "start": "node server.js",
+    "build": "handlebars -f javascript/catTemplate.js views/partials/photoCard.handlebars",
+    "prestart": "npm run build"
   },
   "repository": {
     "type": "git",
@@ -25,7 +27,8 @@
     "express-fileupload": "^1.1.6",
     "express-handlebars": "^3.1.0",
     "handlebars": "^4.5.3",
-    "mongodb": "^3.3.4"
+    "mongodb": "^3.3.4",
+    "node": "^13.3.0"
   },
   "devDependencies": {}
 }
