@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js",
-    "build": "handlebars -f javascript/catTemplate.js views/partials/photoCard.handlebars",
+    "build": "handlebars -f javascript/photoCardTemplate.js views/partials/photoCard.handlebars",
     "prestart": "npm run build"
   },
   "repository": {
@@ -23,10 +23,11 @@
   },
   "homepage": "https://github.com/osu-cs290-f19/final-project-melanie-grant-elliott#readme",
   "dependencies": {
+    "body-parser": "^1.19.0",
     "express": "^4.17.1",
     "express-handlebars": "^3.1.0",
     "handlebars": "^4.5.3",
-    "mongodb": "^3.3.4",
+    "mongodb": "^3.4.0",
     "node": "^13.3.0"
   },
   "devDependencies": {}
