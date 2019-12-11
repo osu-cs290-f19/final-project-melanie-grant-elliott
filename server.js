@@ -1,6 +1,7 @@
 // Imports and constants
 var express = require('express');
 var exphbs = require('express-handlebars');
+var bodyParser = require('body-parser');
 var fs = require('fs');
 const MongoClient = require('mongodb').MongoClient;
 var app = express();
@@ -8,6 +9,8 @@ var portnumber = process.env.PORT || 3000;
 const dbSecret = JSON.parse(fs.readFileSync('./javascript/dbsecrets.json')).key;
 const url = "mongodb+srv://catspotteam:" + dbSecret + "@cat-spot-vx3kz.mongodb.net/test?retryWrites=true&w=majority";
 var db;
+
+app.use(bodyParser.json());
 
 app.engine('handlebars', exphbs());
 app.set('view engine', 'handlebars');
@@ -39,7 +42,12 @@ MongoClient.connect(url, (err, database) => {
             .find({"createdAt":{$gt:new Date(Date.now() - 24*60*60 * 1000)}})
             .toArray();
 
-        res.status(200).sendFile(__dirname + "/index.html");
+        res.status(200).render('homePage',{
+          posts: cats
+        });
+
+
+        //res.status(200).sendFile(__dirname + "/index.html");
         // Eventually, when we use views, we can call res.render('indexView', { 'catarray' : cats });
         // so that we can pass the backend cats to the front end
     });

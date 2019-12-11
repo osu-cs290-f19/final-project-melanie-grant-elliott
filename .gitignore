@@ -2,3 +2,5 @@ node_modules
 javascript/secrets.js
 javascript/dbsecrets.json
 .jshintrc
+javascript/catTemplate.js
+javascript/dbsecrets.json
