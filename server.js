@@ -2,6 +2,7 @@
 var express = require('express');
 var exphbs = require('express-handlebars');
 var fs = require('fs');
+const fileUpload = require('express-fileupload');
 const MongoClient = require('mongodb').MongoClient;
 var app = express();
 var portnumber = process.env.PORT || 3000;
@@ -30,6 +31,7 @@ MongoClient.connect(url, (err, database) => {
     app.use('/javascript', express.static(__dirname + '/javascript'));
     app.use('/sdk', express.static(__dirname + '/sdk'));
     app.use(express.json());
+    app.use(fileUpload());
 
     // GET / - gets index.html
     app.get('/', async function(req, res){
@@ -61,6 +63,10 @@ MongoClient.connect(url, (err, database) => {
     // { "lat" : 44.5242, "long" : -123.2792, "color" : "white", ...etc }
     app.post('/cat-spotting', async function(req, res){
 
+        // Put the picture of the cat uploaded in the images folder on the server
+        let randomFileName = Math.floor(Math.random()*10000000).toString();
+        req.files.catImage.mv('./images/' + randomFileName + '.jpg');
+        
         // Parse the request, and use the body's values to create a new entry in the database
         await db.collection('cat-spottings').insertOne(
             {
@@ -69,6 +75,7 @@ MongoClient.connect(url, (err, database) => {
                 "color" : req.body.color,
                 "energy" : req.body.energy,
                 "sociability" : req.body.sociability,
+                "imageName" : randomFileName + '.jpg',
                 "createdAt" : new Date() //the date the POST is made is added automatically
             }
         );

@@ -68,16 +68,19 @@ map.addEventListener('click', (event) => {
 });    
 
 // Creates a new cat in the database. Example call:
-// createNewCat(44.5125,-123.2691,"white","high","shy");
-async function createNewCat(rlat, rlong, rcolor, renergy, rsociability){
+//      createNewCat(44.5125,-123.2691,"white","high","shy");
+// Automatically grabs whatever picture has been uploaded to the image input file
+async function createNewCat(lat, long, color, energy, sociability){
+    
+    let input = document.querySelector('input[type="file"]');
 
-    let postData = {
-        lat : rlat,
-        long : rlong,
-        color : rcolor,
-        energy : renergy,
-        sociability : rsociability
-    };
+    let data = new FormData();
+    data.append('catImage', input.files[0]);
+    data.append('lat', lat);
+    data.append('long', long);
+    data.append('color', color);
+    data.append('energy', energy);
+    data.append('sociability', sociability);
 
     // Default options are marked with *
     const response = await fetch('./cat-spotting', {
@@ -85,13 +88,9 @@ async function createNewCat(rlat, rlong, rcolor, renergy, rsociability){
         mode: 'cors', // no-cors, *cors, same-origin
         cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
         credentials: 'same-origin', // include, *same-origin, omit
-        headers: {
-          'Content-Type': 'application/json'
-          // 'Content-Type': 'application/x-www-form-urlencoded',
-        },
         redirect: 'follow', // manual, *follow, error
         referrer: 'no-referrer', // no-referrer, *client
-        body: JSON.stringify(postData) // body data type must match "Content-Type" header
+        body: data
       });
 
       return await response; // parses JSON response into native JavaScript objects
@@ -99,7 +98,6 @@ async function createNewCat(rlat, rlong, rcolor, renergy, rsociability){
 
 // TODO: add event listener on modal "accept" button that takes the fields,
 // wraps them in a POST request to /cat-spotting, and then clears them, closing the modal.
-// use the createNewCat(...) function to send a POST request
 
 // TODO: add event listener on modal "cancel" button that clears the fields,
 // closes the modal, and removes the last placed marker (as we are not going through with the new cat)
