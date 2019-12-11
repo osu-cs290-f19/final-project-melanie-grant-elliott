@@ -101,14 +101,9 @@ async function createNewCat(lat, long, color, energy, sociability){
 //variables
 var menu = document.getElementById('modal-backdrop');
 var catMod = document.getElementById('add-cat-modal');
-var button = document.getElementById('modal-open-button');
 var button2 = document.getElementsByClassName('modal-hide-button');
 var button3 = document.getElementById('modal-accept');
 var modInp = document.getElementsByClassName('post-input-element');
-
- //listener for modal displaying button being clicked
-console.log(button);
-button.addEventListener('click', handleButtonClick);
 
 //listener for modal closing button being clicked
 for(var i = 0; i < button2.length; i++){
