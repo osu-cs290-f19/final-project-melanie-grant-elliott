@@ -28,7 +28,8 @@
     "express-handlebars": "^3.1.0",
     "handlebars": "^4.5.3",
     "mongodb": "^3.3.4",
-    "node": "^13.3.0"
+    "node": "^13.3.0",
+    "opencage-api-client": "^0.5.1"
   },
   "devDependencies": {}
 }

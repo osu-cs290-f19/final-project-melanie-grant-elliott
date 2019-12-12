@@ -2,9 +2,10 @@
 var express = require('express');
 var exphbs = require('express-handlebars');
 var fs = require('fs');
-const fileUpload = require('express-fileupload');
 const MongoClient = require('mongodb').MongoClient;
 var app = express();
+const opencage = require('opencage-api-client');
+const fileUpload = require('express-fileupload');
 var portnumber = process.env.PORT || 3000;
 const dbSecret = JSON.parse(fs.readFileSync('./javascript/dbsecrets.json')).key;
 const url = "mongodb+srv://catspotteam:" + dbSecret + "@cat-spot-vx3kz.mongodb.net/test?retryWrites=true&w=majority";
@@ -66,24 +67,61 @@ MongoClient.connect(url, (err, database) => {
         // Put the picture of the cat uploaded in the images folder on the server
         let randomFileName = Math.floor(Math.random()*10000000).toString();
         req.files.catImage.mv('./images/' + randomFileName + '.jpg');
-        
-        // Parse the request, and use the body's values to create a new entry in the database
-        await db.collection('cat-spottings').insertOne(
-            {
-                "lat" : req.body.lat,
-                "long" : req.body.long,
-                "color" : req.body.color,
-                "energy" : req.body.energy,
-                "sociability" : req.body.sociability,
-                "imageName" : randomFileName + '.jpg',
-                "createdAt" : new Date() //the date the POST is made is added automatically
-            }
-        );
 
-        console.log("Saved " + req.body.color + " + cat at lat: " + req.body.lat + " and long: " + req.body.long + " to the db!");
+        if (req.body.lat && req.body.long){
+            opencage.geocode({q: req.body.lat + ', ' + req.body.long, language: 'en'})
+            .then(data => {
+                var place = data.results[0];
+                console.log(" place components");
+                console.log(place.components.building);
+                if (place.components.building){
+                    return place.components.building;
+                }
+                if (place.components.road){
+                    return place.components.road;
+                }
+                return "Lat: " + req.body.lat + ", Long: " + req.body.long;
+            })
+            .then((addr) => {
+                console.log("address: " + addr);
+                // Parse the request, and use the body's values to create a new entry in the database
+                db.collection('cat-spottings').insertOne(
+                    {
+                        "lat" : req.body.lat,
+                        "long" : req.body.long,
+                        "color" : req.body.color,
+                        "energy" : req.body.energy,
+                        "sociability" : req.body.sociability,
+                        "imageName" : randomFileName + '.jpg',
+                        "address" : addr,
+                        "createdAt" : new Date() //the date the POST is made is added automatically
+                    }
+                );
 
-        // When a POST request is made, the main page (index.html) is reloaded so that the newest cat will
-        // show up in both the map and the timeline.
-        res.redirect('/');
+                console.log("Saved " + req.body.color + " + cat at lat: " + req.body.lat + " and long: " + req.body.long + " to the db!");
+            })
+            .then(() => {
+                // When a POST request is made, the main page (index.html) is reloaded so that the newest cat will
+                // show up in both the map and the timeline.
+                res.redirect('/');
+            });
+
+        } 
+        else {
+            await db.collection('cat-spottings').insertOne(
+                {
+                    "lat" : req.body.lat,
+                    "long" : req.body.long,
+                    "color" : req.body.color,
+                    "energy" : req.body.energy,
+                    "sociability" : req.body.sociability,
+                    "imageName" : randomFileName + '.jpg',
+                    "address" : "Lat: " + req.body.lat + ", Long: " + req.body.long,
+                    "createdAt" : new Date() //the date the POST is made is added automatically
+                }
+            );
+
+            res.redirect('/');
+        }
     });
   });

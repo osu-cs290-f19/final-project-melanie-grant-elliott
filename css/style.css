@@ -1,6 +1,7 @@
 html, body, head, h2, h1, h3{
     margin: 0;
     overflow: hidden;
+    font-family: Roboto, sans-serif;
 }
 
 .cat-title{
@@ -109,7 +110,7 @@ html, body, head, h2, h1, h3{
   left: 0;
   right: 0;
   z-index: 1003;
-  overflow: scroll;
+  overflow: none;
 }
 
 

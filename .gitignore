@@ -3,3 +3,5 @@ javascript/secrets.js
 javascript/dbsecrets.json
 .jshintrc
 *.jpg
+!images/defaultcat.jpg
+.env
