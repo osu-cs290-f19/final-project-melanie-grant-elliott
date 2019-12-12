@@ -5,3 +5,7 @@ javascript/dbsecrets.json
 *.jpg
 !images/defaultcat.jpg
 .env
+javascript/catTemplate.js
+javascript/dbsecrets.json
+javascript/dbsecrets.json
+javascript/photoCardTemplate.js

@@ -53,36 +53,6 @@ html, body, head, h2, h1, h3{
   z-index: 1;
 }
 
-#modal-open-button {
-  position: fixed;
-  right: 30px;
-  bottom: 30px;
-  height: 60px;
-  width: 60px;
-  z-index: 1001;
-  border: none;
-  border-radius: 30px;
-  font-size: 36px;
-  background-color: #f67811;
-  color: #fff;
-  cursor: pointer;
-  box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.25);
-}
-
-#modal-open-button:hover,
-#modal-open-button:focus {
-  right: 27px;
-  bottom: 27px;
-  height: 66px;
-  width: 66px;
-  border-radius: 33px;
-  font-size: 40px;
-}
-
-#modal-open-button:focus {
-  outline: none;
-}
-
 #map {
   width: calc(100vw - 400px);
   height: 100vh;
@@ -104,8 +74,6 @@ html, body, head, h2, h1, h3{
 
 #add-cat-modal {
   position: fixed;
-  top: 0;
-  bottom: 0;
   left: 0;
   right: 0;
   z-index: 1003;
@@ -121,9 +89,9 @@ html, body, head, h2, h1, h3{
   width: auto;
   max-width: 600px;
   min-width: 350px;
-  min-height: 300px;
+  min-height: 375px;
   margin: 40px auto;
-  background-color: #FFEAE0;
+  background-color: #f0d389;
   border-radius: 15px;
 }
 
@@ -190,7 +158,7 @@ html, body, head, h2, h1, h3{
 }
 
 #cat-tivity{
-  height: calc(100vh - 100px);
+  height: calc(100vh - 131px);
   overflow-y: auto;
 }
 
@@ -216,8 +184,17 @@ html, body, head, h2, h1, h3{
   width: 23%;
 }
 
+.cat-photo{
+  position: relative;
+  float: right;
+  padding-right: 5px;
+  top: 10%;
+  height: 23%;
+  width: 23%;
+}
+
 .cat-photo img{
-  border-radius: 50%;
+  clip-path: circle(40px at center);
   width: 100%;
   height: auto;
 }
@@ -233,6 +210,7 @@ html, body, head, h2, h1, h3{
 .timeline-element-text{
   float: left;
   height: 25px;
+  font-size: 100%;
   padding-left: 5px;
 }
 

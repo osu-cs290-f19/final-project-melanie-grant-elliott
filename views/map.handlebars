@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <title>Cat Spot!</title>
+    </head>
+    <body>
+      <div id='map'></div>
+      <script src='javascript/secrets.js'></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.4.2/handlebars.runtime.js" charset="utf-8" defer></script>
+      <link rel='stylesheet' type='text/css' href='css/style.css'/>
+      <script src="javascript/catTemplate.js" charset="utf-8" defer></script>
+      <script src='sdk/tomtom.min.js'></script>
+      <link rel='stylesheet' type='text/css' href='sdk/map.css'/>
+        <div id='side-elements'>
+          <div id='header'>
+            <div id='header-bar'>
+              <img src="images/catspot.png"></img>
+            </div>
+            <h2 class='cat-title' id='time-title'> Cat-tivity </h2>
+          </div>
+            <div id='cat-tivity'>
+              {{#each post}}
+                {{> photoCard}}
+              {{/each}}
+            </div>
+      </div>
+
+      <div id="modal-backdrop" class="hidden"></div>
+      <div id="add-cat-modal" class="hidden">
+        <div class="modal-dialog">
+
+            <div class="modal-header">
+              <h3>Post a cat!</h3>
+              <button type="button" id="modal-close" class="modal-hide-button">&times;</button>
+            </div>
+
+            <div class="modal-body">
+
+              <div class="post-input-element">
+                <label for="post-color-input">Color</label>
+                <input type="text" id="post-color-input">
+              </div>
+
+              <div class="post-input-element">
+                <label for="post-energy-input">Energy level</label>
+                <input type="text" id="post-energy-input"></input>
+              </div>
+
+              <div class="post-input-element">
+                <label for="post-kindness-input">Sociability</label>
+                <input type="text" id="post-kindness-input">
+              </div>
+
+              <div class="post-input-element">
+                <label for="post-photo-input">Photo URL</label>
+                <input type="file" id="post-photo-input">
+              </div>
+
+            </div>
+
+
+            <div class="modal-footer">
+              <button type="button" id="modal-cancel" class="modal-hide-button">Cancel</button>
+              <button type="button" id="modal-accept" class="action-button">Create Post</button>
+            </div>
+        </div>
+      </div>
+      <script src='javascript/script.js'></script>
+  </body>
+</html>
