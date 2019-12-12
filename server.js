@@ -11,6 +11,8 @@ const dbSecret = JSON.parse(fs.readFileSync('./javascript/dbsecrets.json')).key;
 const url = "mongodb+srv://catspotteam:" + dbSecret + "@cat-spot-vx3kz.mongodb.net/test?retryWrites=true&w=majority";
 var db;
 
+app.use(bodyParser.json());
+
 app.engine('handlebars', exphbs());
 app.set('view engine', 'handlebars');
 
