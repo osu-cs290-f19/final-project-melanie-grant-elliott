@@ -1,15 +1,23 @@
 // Imports and constants
 var express = require('express');
 var exphbs = require('express-handlebars');
+var cloudinary = require('cloudinary').v2;
 var fs = require('fs');
 const MongoClient = require('mongodb').MongoClient;
 var app = express();
+const fetch = require('node-fetch');
 const opencage = require('opencage-api-client');
 const fileUpload = require('express-fileupload');
 var portnumber = process.env.PORT || 3000;
-const dbSecret = JSON.parse(fs.readFileSync('./javascript/dbsecrets.json')).key;
-const url = "mongodb+srv://catspotteam:" + dbSecret + "@cat-spot-vx3kz.mongodb.net/test?retryWrites=true&w=majority";
+const dbSecret = JSON.parse(fs.readFileSync('./javascript/dbsecrets.json'));
+const url = "mongodb+srv://catspotteam:" + dbSecret.key + "@cat-spot-vx3kz.mongodb.net/test?retryWrites=true&w=majority";
 var db;
+
+cloudinary.config({ 
+    cloud_name: 'dlacs8amd', 
+    api_key: dbSecret.id, 
+    api_secret: dbSecret.secret 
+  });
 
 app.engine('handlebars', exphbs());
 app.set('view engine', 'handlebars');
@@ -68,23 +76,59 @@ MongoClient.connect(url, (err, database) => {
         let randomFileName = Math.floor(Math.random()*10000000).toString();
         req.files.catImage.mv('./images/' + randomFileName + '.jpg');
 
-        if (req.body.lat && req.body.long){
-            opencage.geocode({q: req.body.lat + ', ' + req.body.long, language: 'en'})
-            .then(data => {
-                var place = data.results[0];
-                console.log(" place components");
-                console.log(place.components.building);
-                if (place.components.building){
-                    return place.components.building;
-                }
-                if (place.components.road){
-                    return place.components.road;
-                }
-                return "Lat: " + req.body.lat + ", Long: " + req.body.long;
-            })
-            .then((addr) => {
-                console.log("address: " + addr);
-                // Parse the request, and use the body's values to create a new entry in the database
+        // Now, upload it to the cloud provider for easier access
+        cloudinary.uploader.upload("./images/" + randomFileName + ".jpg", 
+        { use_filename : true }, 
+        function(error, result) { 
+
+            // If the latitude and longitude are not null, then find the address associated with the coordinates
+            if (req.body.lat && req.body.long){
+                opencage.geocode({q: req.body.lat + ', ' + req.body.long, language: 'en'})
+                .then(data => {
+                    var place = data.results[0];
+
+                    // Prioritize the name of the building,
+                    if (place.components.building){
+                        return place.components.building;
+                    }
+                    // then the name of the road,
+                    if (place.components.road){
+                        return place.components.road;
+                    }
+                    // and lastly if neither exist just return the lat/long as a formatted string
+                    return "Lat: " + req.body.lat + ", Long: " + req.body.long;
+                })
+                .then((addr) => {
+
+                    // Parse the request, and use the body's values to create a new entry in the database
+                    db.collection('cat-spottings').insertOne(
+                        {
+                            "lat" : req.body.lat,
+                            "long" : req.body.long,
+                            "color" : req.body.color,
+                            "energy" : req.body.energy,
+                            "sociability" : req.body.sociability,
+                            "imageName" : randomFileName + '.jpg',
+                            "address" : addr,
+                            "url" : result.url,
+                            "createdAt" : new Date() //the date the POST is made is added automatically
+                        }
+                    );
+
+                    console.log("Saved " + req.body.color + " cat at lat: " + 
+                        req.body.lat + ", long: " + req.body.long + " with energy: " + req.body.energy + 
+                        " and sociability: " + req.body.sociability + " and address: " + addr + 
+                        ".\nUrl: " + result.url + " to the db!");
+                })
+                .then(() => {
+                    // When a POST request is made, the main page (index.html) is reloaded so that the newest cat will
+                    // show up in both the map and the timeline.
+                    res.redirect('/');
+                });
+
+            } 
+            // If the lat/long aren't valid, then return a special case
+            else {
                 db.collection('cat-spottings').insertOne(
                     {
                         "lat" : req.body.lat,
@@ -93,35 +137,15 @@ MongoClient.connect(url, (err, database) => {
                         "energy" : req.body.energy,
                         "sociability" : req.body.sociability,
                         "imageName" : randomFileName + '.jpg',
-                        "address" : addr,
-                        "createdAt" : new Date() //the date the POST is made is added automatically
+                        "address" : "It's a mystery",
+                        "url" : result.url,
+                        "createdAt" : new Date()
                     }
-                );
-
-                console.log("Saved " + req.body.color + " + cat at lat: " + req.body.lat + " and long: " + req.body.long + " to the db!");
-            })
-            .then(() => {
-                // When a POST request is made, the main page (index.html) is reloaded so that the newest cat will
-                // show up in both the map and the timeline.
-                res.redirect('/');
-            });
-
-        } 
-        else {
-            await db.collection('cat-spottings').insertOne(
-                {
-                    "lat" : req.body.lat,
-                    "long" : req.body.long,
-                    "color" : req.body.color,
-                    "energy" : req.body.energy,
-                    "sociability" : req.body.sociability,
-                    "imageName" : randomFileName + '.jpg',
-                    "address" : "Lat: " + req.body.lat + ", Long: " + req.body.long,
-                    "createdAt" : new Date() //the date the POST is made is added automatically
-                }
-            );
-
-            res.redirect('/');
-        }
+                )
+                .then(() => {
+                    res.redirect('/');
+                });
+            }
+        });
     });
   });
