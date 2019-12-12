@@ -219,16 +219,3 @@ async function createNewCat(rlat, rlong, rcolor, renergy, rsociability){
 }
 //^^ Map API Junk
 createNewCat(44.5125,-123.2691,"white","high","shy");
-
-function insertNewCat(image, title, color, kindness, address){
-  var photoCardTemplate = Handlebars.templates.photocard;
-  var newPhotoCardHTML = photoCardTemplate({
-    image: image,
-    title: title,
-    color: color,
-    kindness: kindness,
-    address: address
-  });
-  var photoCardContainer = document.querySelector('#cat-tivity');
-  photoCardContainer.insertAdjacentHTML('beforeend', newPhotoCardHTML);
-}
