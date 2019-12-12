@@ -66,13 +66,13 @@ map.addEventListener('click', (event) => {
 
     menu.style.display = 'block';
     catMod.style.display = 'block';
-});    
+});
 
 // Creates a new cat in the database. Example call:
 //      createNewCat(44.5125,-123.2691,"white","high","shy");
 // Automatically grabs whatever picture has been uploaded to the image input file
 async function createNewCat(lat, long, color, energy, sociability){
-    
+
     let input = document.querySelector('input[type="file"]');
 
     let data = new FormData();
@@ -85,7 +85,7 @@ async function createNewCat(lat, long, color, energy, sociability){
 
     // Default options are marked with *
     const response = await fetch('./cat-spotting', {
-        method: 'POST', 
+        method: 'POST',
         mode: 'cors', // no-cors, *cors, same-origin
         cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
         credentials: 'same-origin', // include, *same-origin, omit
