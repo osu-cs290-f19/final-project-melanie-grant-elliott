@@ -18,6 +18,8 @@ function handleMarkerClick(e) {
     e.target.openPopup();
  }
 
+var latlng;
+
 // All this giant chunk does is preload the map with cats spotted in the last 24 hours
 fetch('./cat-locations')
 
@@ -133,7 +135,9 @@ var catMod = document.getElementById('add-cat-modal');
 var button2 = document.getElementsByClassName('modal-hide-button');
 var button3 = document.getElementById('modal-accept');
 var modInp = document.getElementsByClassName('post-input-element');
+var colorInp = document.getElementById('post-color-input');
 var energyInp = document.getElementById('post-energy-input');
+var kindnessInp = document.getElementById('post-kindness-input');
 var photoInp = document.getElementById('post-photo-input');
 
 //listener for modal closing button being clicked
@@ -153,7 +157,18 @@ function handleButtonClick(event){
 }
 
 function handleAcceptButtonClick(event){
-
+  if(colorInp.value == "" || energyInp.value ==""|| kindnessInp.value ==""|| photoInp.value ==""){
+    window.alert("fill out all fields please!");
+  }
+  else{
+  createNewCat(latlng[0],latlng[1],colorInp.value,energyInp.value,kindnessInp.value);
+    menu.style.display = 'none';
+    catMod.style.display = 'none';
+    colorInp.value = "";
+    energyInp.value ="";
+    kindnessInp.value ="";
+    photoInp.value ="";
+  }
 }
 
  //handler for either the x or cancel button being clicked
