@@ -53,36 +53,6 @@ html, body, head, h2, h1, h3{
   z-index: 1;
 }
 
-#modal-open-button {
-  position: fixed;
-  right: 30px;
-  bottom: 30px;
-  height: 60px;
-  width: 60px;
-  z-index: 1001;
-  border: none;
-  border-radius: 30px;
-  font-size: 36px;
-  background-color: #f67811;
-  color: #fff;
-  cursor: pointer;
-  box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.25);
-}
-
-#modal-open-button:hover,
-#modal-open-button:focus {
-  right: 27px;
-  bottom: 27px;
-  height: 66px;
-  width: 66px;
-  border-radius: 33px;
-  font-size: 40px;
-}
-
-#modal-open-button:focus {
-  outline: none;
-}
-
 #map {
   width: calc(100vw - 400px);
   height: 100vh;
@@ -121,9 +91,9 @@ html, body, head, h2, h1, h3{
   width: auto;
   max-width: 600px;
   min-width: 350px;
-  min-height: 300px;
+  min-height: 375px;
   margin: 40px auto;
-  background-color: #FFEAE0;
+  background-color: #f0d389;
   border-radius: 15px;
 }
 
@@ -181,8 +151,8 @@ html, body, head, h2, h1, h3{
   display: flex;
   justify-content: flex-end;
   padding: 10px 10px 20px 10px;
-  width: calc(100vw - 400px);
-  height: 100vh;
+  width: 35em;
+  height: 2em;
   position: relative;
   float: left;
   margin: 0;
@@ -205,6 +175,15 @@ html, body, head, h2, h1, h3{
 
   text-align: center;
   position: relative;
+}
+
+.cat-photo{
+  position: relative;
+  float: right;
+  padding-right: 5px;
+  top: 10%;
+  height: 23%;
+  width: 23%;
 }
 
 .cat-photo{
