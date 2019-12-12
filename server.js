@@ -45,7 +45,7 @@ MongoClient.connect(url, (err, database) => {
 
         res.status(200).render('map',{
           layout: false,
-          post: cats
+          post: cats.reverse()
         });
         console.log("cats: ",cats);
 

@@ -13,6 +13,13 @@ let map = tomtom.L.map('map', {
 });
 
 let markersList = [];
+//This is where my stuff lives
+//variables
+var menu = document.getElementById("modal-backdrop");
+var catMod = document.getElementById("add-cat-modal");
+var button2 = document.getElementsByClassName('modal-hide-button');
+var button3 = document.getElementById("modal-accept");
+var modInp = document.getElementsByClassName('post-input-element');
 
 function handleMarkerClick(e) {
     e.target.openPopup();
@@ -47,7 +54,7 @@ fetch('./cat-locations')
   .then(() =>
     {
         for (let i = 0; i < markersList.length; i++){
-            console.log(markersList[i]);
+            //console.log(markersList[i]);
             markersList[i].addEventListener('click', handleMarkerClick);
         }
     }
@@ -97,21 +104,13 @@ async function createNewCat(lat, long, color, energy, sociability){
       return await response; // parses JSON response into native JavaScript objects
 }
 
-//This is where my stuff lives
-//variables
-var menu = document.getElementById('modal-backdrop');
-var catMod = document.getElementById('add-cat-modal');
-var button2 = document.getElementsByClassName('modal-hide-button');
-var button3 = document.getElementById('modal-accept');
-var modInp = document.getElementsByClassName('post-input-element');
-
 //listener for modal closing button being clicked
 for(var i = 0; i < button2.length; i++){
   button2[i].addEventListener('click', handleHideButtonClick);
 }
 
 //listener for modal accepting button being clicked
-button3.addEventListener('click', handleAcceptButtonClick);
+//button3.addEventListener('click', handleAcceptButtonClick);
 
 //handler for modal button being clicked
 function handleButtonClick(event){
