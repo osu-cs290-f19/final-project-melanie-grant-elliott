@@ -18,6 +18,35 @@ map.addEventListener('click', (event) => {
     catMod.style.display = 'block';
 });
 
+// Creates a new cat in the database. Example call:
+//      createNewCat(44.5125,-123.2691,"white","high","shy");
+// Automatically grabs whatever picture has been uploaded to the image input file
+async function createNewCat(lat, long, color, energy, sociability){
+
+    let input = document.querySelector('input[type="file"]');
+
+    let data = new FormData();
+    data.append('catImage', input.files[0]);
+    data.append('lat', lat);
+    data.append('long', long);
+    data.append('color', color);
+    data.append('energy', energy);
+    data.append('sociability', sociability);
+
+    // Default options are marked with *
+    const response = await fetch('./cat-spotting', {
+        method: 'POST',
+        mode: 'cors', // no-cors, *cors, same-origin
+        cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+        credentials: 'same-origin', // include, *same-origin, omit
+        redirect: 'follow', // manual, *follow, error
+        referrer: 'no-referrer', // no-referrer, *client
+        body: data
+      });
+
+      return await response; // parses JSON response into native JavaScript objects
+}
+
 //This is where my stuff lives
 //variables
 var menu = document.getElementById('modal-backdrop');
@@ -25,6 +54,8 @@ var catMod = document.getElementById('add-cat-modal');
 var button2 = document.getElementsByClassName('modal-hide-button');
 var button3 = document.getElementById('modal-accept');
 var modInp = document.getElementsByClassName('post-input-element');
+var energyInp = document.getElementById('post-energy-input');
+var photoInp = document.getElementById('post-photo-input');
 
 //listener for modal closing button being clicked
 for(var i = 0; i < button2.length; i++){
@@ -89,6 +120,7 @@ async function createNewCat(rlat, rlong, rcolor, renergy, rsociability){
       });
 }
 //^^ Map API Junk
+createNewCat(44.5125,-123.2691,"white","high","shy");
 
 function insertNewCat(image, title, color, kindness, address){
   var photoCardTemplate = Handlebars.templates.photocard;
