@@ -13,17 +13,13 @@ let map = tomtom.L.map('map', {
 });
 
 let markersList = [];
-//This is where my stuff lives
-//variables
-var menu = document.getElementById("modal-backdrop");
-var catMod = document.getElementById("add-cat-modal");
-var button2 = document.getElementsByClassName('modal-hide-button');
-var button3 = document.getElementById("modal-accept");
-var modInp = document.getElementsByClassName('post-input-element');
+
 
 function handleMarkerClick(e) {
     e.target.openPopup();
  }
+
+var latlng;
 
 // All this giant chunk does is preload the map with cats spotted in the last 24 hours
 fetch('./cat-locations')
@@ -104,6 +100,47 @@ async function createNewCat(lat, long, color, energy, sociability){
       return await response; // parses JSON response into native JavaScript objects
 }
 
+// Creates a new cat in the database. Example call:
+//      createNewCat(44.5125,-123.2691,"white","high","shy");
+// Automatically grabs whatever picture has been uploaded to the image input file
+async function createNewCat(lat, long, color, energy, sociability){
+
+    let input = document.querySelector('input[type="file"]');
+
+    let data = new FormData();
+    data.append('catImage', input.files[0]);
+    data.append('lat', lat);
+    data.append('long', long);
+    data.append('color', color);
+    data.append('energy', energy);
+    data.append('sociability', sociability);
+
+    // Default options are marked with *
+    const response = await fetch('./cat-spotting', {
+        method: 'POST',
+        mode: 'cors', // no-cors, *cors, same-origin
+        cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+        credentials: 'same-origin', // include, *same-origin, omit
+        redirect: 'follow', // manual, *follow, error
+        referrer: 'no-referrer', // no-referrer, *client
+        body: data
+      });
+
+      return await response; // parses JSON response into native JavaScript objects
+}
+
+//This is where my stuff lives
+//variables
+var menu = document.getElementById('modal-backdrop');
+var catMod = document.getElementById('add-cat-modal');
+var button2 = document.getElementsByClassName('modal-hide-button');
+var button3 = document.getElementById('modal-accept');
+var modInp = document.getElementsByClassName('post-input-element');
+var colorInp = document.getElementById('post-color-input');
+var energyInp = document.getElementById('post-energy-input');
+var kindnessInp = document.getElementById('post-kindness-input');
+var photoInp = document.getElementById('post-photo-input');
+
 //listener for modal closing button being clicked
 for(var i = 0; i < button2.length; i++){
   button2[i].addEventListener('click', handleHideButtonClick);
@@ -121,7 +158,18 @@ function handleButtonClick(event){
 }
 
 function handleAcceptButtonClick(event){
-
+  if(colorInp.value == "" || energyInp.value ==""|| kindnessInp.value ==""|| photoInp.value ==""){
+    window.alert("fill out all fields please!");
+  }
+  else{
+  createNewCat(latlng[0],latlng[1],colorInp.value,energyInp.value,kindnessInp.value);
+    menu.style.display = 'none';
+    catMod.style.display = 'none';
+    colorInp.value = "";
+    energyInp.value ="";
+    kindnessInp.value ="";
+    photoInp.value ="";
+  }
 }
 
  //handler for either the x or cancel button being clicked
@@ -141,6 +189,36 @@ function handleHideButtonClick(event) {
     // This removes the last placed marker on the map, as we aren't going through with the new cat
     map.removeLayer(markersList[markersList.length-1]);
 }
+
+// Creates a new cat in the database. Example call:
+// createNewCat(44.5125,-123.2691,"white","high","shy");
+async function createNewCat(rlat, rlong, rcolor, renergy, rsociability){
+
+    let postData = {
+        lat : rlat,
+        long : rlong,
+        color : rcolor,
+        energy : renergy,
+        sociability : rsociability
+    };
+
+    // Default options are marked with *
+    const response = await fetch('./cat-spotting', {
+        method: 'POST',
+        mode: 'cors', // no-cors, *cors, same-origin
+        cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+        credentials: 'same-origin', // include, *same-origin, omit
+        headers: {
+          'Content-Type': 'application/json'
+          // 'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        redirect: 'follow', // manual, *follow, error
+        referrer: 'no-referrer', // no-referrer, *client
+        body: JSON.stringify(postData) // body data type must match "Content-Type" header
+      });
+}
+//^^ Map API Junk
+createNewCat(44.5125,-123.2691,"white","high","shy");
 
 function insertNewCat(image, title, color, kindness, address){
   var photoCardTemplate = Handlebars.templates.photocard;
