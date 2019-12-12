@@ -3,3 +3,5 @@ javascript/secrets.js
 javascript/dbsecrets.json
 .jshintrc
 *.jpg
+javascript/catTemplate.js
+javascript/photoCardTemplate.js
