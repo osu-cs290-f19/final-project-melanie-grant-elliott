@@ -56,7 +56,6 @@ MongoClient.connect(url, (err, database) => {
           layout: false,
           post: cats.reverse()
         });
-        console.log("cats: ",cats);
 
         //res.status(200).sendFile(__dirname + "/index.html");
         // Eventually, when we use views, we can call res.render('indexView', { 'catarray' : cats });
@@ -83,41 +82,36 @@ MongoClient.connect(url, (err, database) => {
         let randomFileName = Math.floor(Math.random()*10000000).toString();
         req.files.catImage.mv('./images/' + randomFileName + '.jpg');
 
-        // Parse the request, and use the body's values to create a new entry in the database
-        await db.collection('cat-spottings').insertOne(
-            {
-                "lat" : req.body.lat,
-                "long" : req.body.long,
-                "color" : req.body.color,
-                "energy" : req.body.energy,
-                "sociability" : req.body.sociability,
-                "imageName" : randomFileName + '.jpg',
-                "createdAt" : new Date() //the date the POST is made is added automatically
-            }
-        );
-
         // Now, upload it to the cloud provider for easier access
         cloudinary.uploader.upload("./images/" + randomFileName + ".jpg", 
         { use_filename : true }, 
         function(error, result) { 
-
+            console.log("error: " + error);
+            console.log(req.body.lat + " " + req.body.long);
             // If the latitude and longitude are not null, then find the address associated with the coordinates
             if (req.body.lat && req.body.long){
                 opencage.geocode({q: req.body.lat + ', ' + req.body.long, language: 'en'})
                 .then(data => {
-                    var place = data.results[0];
+                    if (data.status.code == 200) {
+                        if (data.results.length > 0) {
+                            var place = data.results[0];
 
-                    // Prioritize the name of the building,
-                    if (place.components.building){
-                        return place.components.building;
-                    }
-                    // then the name of the road,
-                    if (place.components.road){
-                        return place.components.road;
-                    }
-                    // and lastly if neither exist just return the lat/long as a formatted string
-                    return "Lat: " + req.body.lat + ", Long: " + req.body.long;
-                })
+                            // Prioritize the name of the building,
+                            if (place.components.building){
+                                return place.components.building;
+                            }
+                            // then the name of the road,
+                            if (place.components.road){
+                                return place.components.road;
+                            }
+                            // and lastly if neither exist just return the lat/long as a formatted string
+                            return "Lat: " + req.body.lat + ", Long: " + req.body.long;
+                        }
+                      } else if (data.status.code == 402) {
+                        console.log('hit free-trial daily limit');
+                      } else {
+                        console.log('error', data.status.message);
+                }})
                 .then((addr) => {
 
                     // Parse the request, and use the body's values to create a new entry in the database
