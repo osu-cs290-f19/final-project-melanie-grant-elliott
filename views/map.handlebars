@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <title>Cat Spot!</title>
+    </head>
+    <body>
+      <div id='map'></div>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.4.2/handlebars.runtime.js" charset="utf-8" defer></script>
+      <link rel='stylesheet' type='text/css' href='css/style.css'/>
+      <script src="javascript/catTemplate.js" charset="utf-8" defer></script>
+      <script src='javascript/script.js'></script>
+      <script src='javascript/secrets.js'></script>
+      <link rel='stylesheet' type='text/css' href='sdk/map.css'/>
+      <script src='sdk/tomtom.min.js'></script>
+        <div id='side-elements'>
+          <div id='header'>
+            <div id='header-bar'>
+              <img src="images/catspot.png"></img>
+            </div>
+            <h2 class='cat-title' id='time-title'> Cat-tivity </h2>
+          </div>
+            <div id='cat-tivity'>
+              {{#each post}}
+                {{> photoCard}}
+              {{/each}}
+            </div>
+      </div>
+  </body>
+</html>
