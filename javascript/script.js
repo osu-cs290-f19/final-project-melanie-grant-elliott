@@ -50,7 +50,6 @@ fetch('./cat-locations')
   .then(() =>
     {
         for (let i = 0; i < markersList.length; i++){
-            //console.log(markersList[i]);
             markersList[i].addEventListener('click', handleMarkerClick);
         }
     }
